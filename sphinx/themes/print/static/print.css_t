@@ -1,0 +1,116 @@
+@import url("basic.css");
+
+div.body p, div.body dd, div.body li, div.body blockquote {
+    orphans: 3;
+    widows: 3;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -weasy-hyphens: auto;
+    hyphens: auto;
+    font-size: 11pt;
+}
+
+div.body h1 {
+    font-size: 22pt;
+}
+
+div.body {
+    counter-reset: chapter section-1 section-2 section-3;
+}
+
+div.body h2, div.body h3, div.body h4, div.body h5, div.body h6 {
+    page-break-after: avoid;
+}
+
+div.body h2 {
+    page-break-before: always;
+    text-align: left;
+    font-size: 20pt;
+    font-variant: small-caps;
+    /* border-top: 0.1cm solid black; */
+    border-bottom: 0.1cm solid black;
+    margin-bottom: 1.4in;
+    padding-right: 0;
+    padding-top: 0.2cm;
+    padding-bottom: 0.2cm;
+    counter-reset: section-1 section-2 section-3;
+    counter-increment: chapter;
+}
+
+div.body h2:before {
+    content: "Chapter " counter(chapter) "\A";
+    white-space: pre;
+}
+
+div.body h3 {
+    font-size: 18pt;
+    counter-reset: section-2 section-3;
+    counter-increment: section-1;
+}
+
+div.body h3:before {
+    content: counter(section-1) " ";
+}
+
+div.body h4 {
+    font-size: 15pt;
+    counter-reset: section-3;
+    counter-increment: section-2;
+}
+
+div.body h4:before {
+    content: counter(section-1) "." counter(section-2) " ";
+}
+
+div.body h5 {
+    font-size: 14pt;
+    counter-increment: section-3;
+}
+
+div.body h5:before {
+    content: counter(section-1) "." counter(section-2) "." counter(section-3) " ";
+}
+
+div.body h6 {
+    font-size: 13pt;
+}
+
+div.related {
+    display: none;
+}
+
+/* Do not change link colors for consistent print output. */
+a {
+    color: blue;
+}
+
+@page {
+    margin: 1.2in;
+
+    counter-increment: page-number;
+
+    /*
+     * This is not implemented in major browsers yet. A PDF-oriented render
+     * engine like weasyprint is needed currently. We do use "page-number"
+     * instead of "page" since the spec is unclear at this point (see
+     * https://github.com/Kozea/WeasyPrint/issues/93).
+     */
+    @bottom-center {
+        content: counter(page-number);
+    }
+}
+
+@page:first {
+    margin: 1.8in;
+
+    @bottom-center {
+        content: "";
+    }
+
+    @bottom-right {
+        content: "Release {{ release|e }}";
+        font-size: 13pt;
+    }
+}
